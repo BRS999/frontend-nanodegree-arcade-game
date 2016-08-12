@@ -23,7 +23,11 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        winsE = document.getElementById('wins'),
+        bestE = document.getElementById('best'),
+        wins = 0, best = 0;
+
 
     canvas.width = 505;
     canvas.height = 606;
@@ -57,7 +61,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    }
+    };
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -80,7 +84,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        if(checkCollisions()){
+            wins = 0;
+            stats();
+            reset();
+        }
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,7 +102,34 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        if(player.update()){
+            wins++;
+            stats();
+            setTimeout(function(){
+                reset();
+            }, 1000);
+        }
+    }
+
+
+    function checkCollisions(dt) {
+        var collision = false;
+        allEnemies.forEach(function(enemy) {
+            if(enemy.row == player.row){
+                if(enemy.x + 83 > player.x && enemy.x < player.x + 83){
+                    collision = true;
+                }
+            }
+        });
+        return collision;
+    }
+
+    function stats() {
+        if(wins > best){
+            best = wins;
+            bestE.innerHTML = best;
+        }
+        winsE.innerHTML = wins;
     }
 
     /* This function initially draws the "game level", it will then call
@@ -159,7 +194,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        player.reset();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -170,7 +205,7 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
+        'images/Rock.png',
         'images/char-boy.png'
     ]);
     Resources.onReady(init);
