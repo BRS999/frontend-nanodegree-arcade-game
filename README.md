@@ -15,6 +15,3 @@ As player reaches to the water his win scores increaser by one, until the player
 
 You won’t have to build the game from scratch. You can download the game from [here] (https://github.com/jayampathiw/frontend-nanodegree-arcade-game) and run the index.html file.
 
-##Adding your own
-
-If you would like you can add additional functionality to the game. You can add more code to the app.js file and to the Enemy and Player classes to accomplish that.

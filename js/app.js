@@ -1,4 +1,5 @@
 // Enemies our player must avoid
+"use strict";
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -30,10 +31,10 @@ Enemy.prototype.render = function() {
 
 Enemy.prototype.reset = function() {
     this.col = -1; 
-    this.row = getRandomInt(1,3);
+    this.row = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
     this.x = 101 * this.col;
     this.y = 83 * this.row;
-    this.speed = getRandomInt(2,6);
+    this.speed = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
 };
 
 
@@ -68,7 +69,7 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.reset = function() {
-    this.col = getRandomInt(0,4); 
+    this.col = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
     this.row = 5;
     this.moveable = true;
 };
@@ -93,11 +94,6 @@ Player.prototype.handleInput = function(key) {
     if(this.row < 0) this.row = 0;
     if(this.row > 5) this.row = 5;
 };
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
